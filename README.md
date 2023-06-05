@@ -19,9 +19,6 @@ reference repo  git clone https://github.com/angular-university/angular-ngrx-cou
 - Angular +2
 - Angular Material
 - ngrx
-
-## Author
-- Linkedin - [@yasmin-kasem/](https://www.linkedin.com/in/yasmin-kasem/)
 # To Run the Development Backend Server
 
 We can start the sample application backend with the following command:
