@@ -8,7 +8,9 @@
 
     </mat-card-header>
 
-    <img mat-card-image [src]="course.iconUrl">
+    <img mat-card-image
+     defaultImage ='https://th.bing.com/th/id/OIP.LaIJusM6-w7tyh5ksyGmkgAAAA?pid=ImgDet&rs=1'
+     [lazyLoad]="course.iconUrl">
 
     <mat-card-content>
         <p>{{course.longDescription}}</p>

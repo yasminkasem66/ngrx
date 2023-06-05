@@ -25,6 +25,7 @@ import { EntityDataService, EntityDefinitionService, EntityMetadataMap} from '@n
 import {compareCourses, Course} from './model/course';
 
 import {compareLessons, Lesson} from './model/lesson';
+import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule, ScrollHooks,IntersectionObserverHooks } from 'ng-lazyload-image';
 
 
 export const coursesRoutes: Routes = [
@@ -58,7 +59,9 @@ export const coursesRoutes: Routes = [
     MatDatepickerModule,
     MatMomentDateModule,
     ReactiveFormsModule,
-    RouterModule.forChild(coursesRoutes)
+    RouterModule.forChild(coursesRoutes),
+    LazyLoadImageModule
+
   ],
   declarations: [
     HomeComponent,
@@ -74,7 +77,8 @@ export const coursesRoutes: Routes = [
   ],
   entryComponents: [EditCourseDialogComponent],
   providers: [
-    CoursesHttpService
+    CoursesHttpService,
+    { provide: LAZYLOAD_IMAGE_HOOKS, useClass: IntersectionObserverHooks }
   ]
 })
 export class CoursesModule {
