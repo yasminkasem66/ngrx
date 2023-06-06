@@ -2,10 +2,11 @@
 
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { AuthState } from "./reducers";
+import * as fromAuth from './reducers';
 
 // feature selector it's an easy  to access children of a selector map , the select of state is just a type safe version of these mapping function that we have
  
-export const  selectAuthState= createFeatureSelector<AuthState>('auth')
+export const  selectAuthState= createFeatureSelector<AuthState>(fromAuth.authFeatureKey)
 
 export const isLoggedIn = createSelector(
     selectAuthState,

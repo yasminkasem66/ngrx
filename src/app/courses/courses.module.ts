@@ -26,17 +26,29 @@ import {compareCourses, Course} from './model/course';
 
 import {compareLessons, Lesson} from './model/lesson';
 import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule, ScrollHooks,IntersectionObserverHooks } from 'ng-lazyload-image';
+import { CourseResolver } from './courses.resolver';
+import { EffectsModule } from '@ngrx/effects';
+import { CoursesEffects } from './courses.effects';
+import { StoreModule } from '@ngrx/store';
+import { courseReducer } from './reducers';
+
+import * as fromCourse from './reducers';
+
 
 
 export const coursesRoutes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
+    resolve:{
+      courses: CourseResolver
+    }
 
   },
   {
     path: ':courseUrl',
-    component: CourseComponent
+    component: CourseComponent,
+
   }
 ];
 
@@ -59,8 +71,10 @@ export const coursesRoutes: Routes = [
     MatDatepickerModule,
     MatMomentDateModule,
     ReactiveFormsModule,
+    LazyLoadImageModule,
     RouterModule.forChild(coursesRoutes),
-    LazyLoadImageModule
+    StoreModule.forFeature(fromCourse.courseFeatureKey, courseReducer),
+    EffectsModule.forFeature([CoursesEffects])
 
   ],
   declarations: [
@@ -78,6 +92,7 @@ export const coursesRoutes: Routes = [
   entryComponents: [EditCourseDialogComponent],
   providers: [
     CoursesHttpService,
+    CourseResolver,
     { provide: LAZYLOAD_IMAGE_HOOKS, useClass: IntersectionObserverHooks }
   ]
 })
