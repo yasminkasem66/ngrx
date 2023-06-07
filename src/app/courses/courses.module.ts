@@ -26,20 +26,41 @@ import {compareCourses, Course} from './model/course';
 
 import {compareLessons, Lesson} from './model/lesson';
 import { LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule, ScrollHooks,IntersectionObserverHooks } from 'ng-lazyload-image';
+import { CourseEntityService } from './services/course-entity.service';
+import { CourseResolver } from './services/courses.reslover';
+import { CourseDataService } from './services/courses-data.service';
+import { LessonEntityService } from './services/lesson-entity.service';
 
 
 export const coursesRoutes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
+    resolve:{
+      courses:CourseResolver
+    }
 
   },
   {
     path: ':courseUrl',
-    component: CourseComponent
+    component: CourseComponent,
+    resolve:{
+      courses:CourseResolver
+    }
   }
 ];
 
+const entityMetaData:EntityMetadataMap={
+  Course:{
+    sortComparer:compareCourses,
+    entityDispatcherOptions:{
+      optimisticUpdate:true
+    }
+  },
+  Lesson:{
+    sortComparer:compareLessons
+  }
+}
 
 @NgModule({
   imports: [
@@ -78,14 +99,21 @@ export const coursesRoutes: Routes = [
   entryComponents: [EditCourseDialogComponent],
   providers: [
     CoursesHttpService,
+    CourseEntityService,
+    LessonEntityService,
+    CourseResolver,
+    CourseDataService,
     { provide: LAZYLOAD_IMAGE_HOOKS, useClass: IntersectionObserverHooks }
   ]
 })
 export class CoursesModule {
 
-  constructor() {
-
+  constructor(private eds:EntityDefinitionService, private entityDataService:EntityDataService, private courseDataService:CourseDataService) {
+   eds.registerMetadataMap(entityMetaData);
+   entityDataService.registerService('Course',courseDataService);
   }
+//  is a course entity service.This is an engineering data service that will allow us to, for example, query the data from the backendand save it in the store.And it will also allow us to interact with the data directly on the store.
 
+// we need to inform engineer data that this customer service should be used to get data from our backend instead of the default engine data behavior.
 
 }

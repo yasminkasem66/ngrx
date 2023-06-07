@@ -71,8 +71,9 @@ const routes: Routes = [
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router', //the state of the router is also going to be saved in our store
       routerState: RouterState.Minimal //router state that contains the current URL, it contains the parameters that were used for transitioning
-    })
+    }),
     //ngrx development tool  time traveling  debugger   in order for this to work, we are going to need to integrate the dev tools with the router.The router is what controls what page gets displayed here in the center of the screen.  ngrxRouterStoreModule()(StoreRouterConnectingModule) This is how the engine dev tools are going to be able to trigger screen transitions for us by keeping the router state inside the store. We are going to need a property to save that store and we are going to set that property name as being router.
+    EntityDataModule.forRoot({}), // add ngrxData
   ],
   bootstrap: [AppComponent]
 })
